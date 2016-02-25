@@ -1,0 +1,93 @@
+{template "common/header"}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('Config');}">签到设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('jfconf');}">积分奖励设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('hbconf');}">红包奖励设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('kqconf');}">卡券 / 实物 奖励设置</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">签到类型</div>
+	<div class="panel-body">
+	<table class="table">
+	<form action="{php echo $this->createWebUrl('doconfig')}" method="post">
+		<tr>
+			<th>
+				<div class="radio">
+					<label>
+						<input class="signtype" type="checkbox" name="signtype[]" value="1" {if inString(1 , $data['signtype'])} Checked = 'Checked'{/if}>
+						积分奖励
+					</label>
+				</div>
+			</th>
+			<th>
+				<div class="radio">
+					<label>
+						<input class="signtype" type="checkbox" name="signtype[]" value="2" {if inString(2 , $data['signtype'])} Checked = 'Checked'{/if}>
+						随机奖励
+					</label>
+				</div>
+			</th>
+		</tr>
+	</table>
+	<div class="show">
+		<table class="table" style="display: none">
+
+		</table>
+		<table class="table" style="display: none">
+			<tr>
+				<th>奖励类型:</th>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						<input type="checkbox" name="jltype[]" value="1" {if inString(1 , $data['jltype'])} Checked = 'Checked'{/if}>
+						红包奖励
+					</label>
+					<label>
+						<input type="checkbox" name="jltype[]" value="2" {if inString(2 , $data['jltype'])} Checked = 'Checked'{/if}>
+						卡券奖励
+					</label>
+					<label>
+						<input type="checkbox" name="jltype[]" value="3" {if inString(3 , $data['jltype'])} Checked = 'Checked'{/if}>
+						实物奖励
+					</label>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p><input type="submit" class="btn btn-success"></p>
+	</form>
+	</div>
+</div>
+<script>
+	function typeselect($id){
+		$('.show table').eq($id).show()
+	}
+	function typenoselect($id) {
+		$('.show table').eq($id).hide()
+	}
+	function initialize(){
+		$signtypecount = $('.signtype').length
+		for (var i = 0;i < $signtypecount ; i++){
+			if($('.signtype').eq(i).prop('checked')){
+				typeselect(i)
+			}else{
+				typenoselect(i)
+			}
+		}
+	}
+
+	$('.signtype').click(function(){
+		$signtype = []
+		initialize()
+	})
+	$('[name=jltype]').click(function(){
+		$jls = []
+		initialize()
+		// alert($jls)
+	})
+	initialize()
+	jlclick()
+
+</script>
+{template "common/footer"}

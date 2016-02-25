@@ -1,0 +1,60 @@
+{template "common/header"}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('Config');}">签到设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('jfconf');}">积分奖励设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('hbconf');}">卡券奖励设置</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('kqconf');}">卡券 / 实物 奖励设置</a></li>
+</ul>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="{php echo $this->createWebUrl('kqlist');}">添加卡券</a></li>
+    <li><a href="{php echo $this->createWebUrl('kqlist');}">卡券列表</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">选择卡券</div>
+	<div class="panel-body">
+        <form action="{php echo $this->createWebUrl('kqconf')}" method="post">
+		<table class="table type">
+			<tr>
+				<th><label><input name="type[]" value="discount" type="checkbox" {if in_array("discount" ,$types)}Checked = 'Checked'{/if}>折扣券</label></th>
+				<th><label><input name="type[]" value="cash" type="checkbox" {if in_array("cash" ,$types)}Checked = 'Checked'{/if}>代金卷</label></th>
+				<th><label><input name="type[]" value="gift" type="checkbox" {if in_array("gift" ,$types)}Checked = 'Checked'{/if}>礼品卷</label></th>
+				<th><label><input name="type[]" value="groupon" type="checkbox" {if in_array("groupon" ,$types)}Checked = 'Checked'{/if}>团购券</label></th>
+				<th><label><input name="type[]" value="general_coupon" type="checkbox" {if in_array("general_coupon" ,$types)}Checked = 'Checked'{/if}>优惠券</label></th>
+				<th>{if $types}<a href="{php echo $this->createWebUrl('kqconf')}" class="btn btn-primary">显示全部</a> |
+                    {/if}<input type="submit" class="btn btn-success"></th>
+			</tr>
+		</table>
+        </form>
+        </div>
+    </div>
+<div class="panel panel-default">
+    <div class="panel-heading">选择卡券</div>
+    <div class="panel-body">
+        <form action="{php echo $this->createWebUrl('dokqconfadd')}" method="post">
+            <div class="show">
+                <table class="table">
+                    <tr>
+                        <th>选择</th>
+                        <th>卡券名称</th>
+                        <th>获得几率</th>
+                    </tr>
+                    {loop $data $r}
+                    <tr>
+                        <td><label><input type="checkbox" name="id[]" value="{$r['id']}" id="kqid"></label></td>
+                        <td><label for="male">{$r['brand_name']}</label><input type="text" name="name[]" class="hidden" id="male" value="{$r['brand_name']}" /></td>
+                        <td><input name="point[]" type="text" class="form-control" value="100"></td>
+                    </tr>
+                    {/loop}
+                </table>
+		    </div>
+        <a href="javascript:void(0);" class="btn btn-success selectall">全选</a> | <input type="submit" class="btn btn-success">
+        </form>
+    </div>
+</div>
+<script>
+    $(".selectall").click(function(){
+        if($(".show [type=checkbox]").attr('Checked') !=  'Checked'){
+            $(".show [type=checkbox]").attr('Checked' , 'Checked')
+        }
+    })
+</script>

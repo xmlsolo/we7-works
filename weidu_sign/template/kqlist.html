@@ -1,0 +1,33 @@
+{template "common/header"}
+<ul class="nav nav-tabs">
+    <li><a href="{php echo $this->createWebUrl('Config');}">签到设置</a></li>
+    <li><a href="{php echo $this->createWebUrl('jfconf');}">积分奖励设置</a></li>
+    <li><a href="{php echo $this->createWebUrl('hbconf');}">卡券奖励设置</a></li>
+    <li class="active"><a href="{php echo $this->createWebUrl('kqconf');}">卡券 / 实物 奖励设置</a></li>
+</ul>
+<ul class="nav nav-tabs">
+    <li><a href="{php echo $this->createWebUrl('kqconf');}">添加卡券</a></li>
+    <li class="active"><a href="{php echo $this->createWebUrl('kqlist');}">卡券列表</a></li>
+</ul>
+
+<div class="panel panel-default">
+    <div class="panel-heading">列表</div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>卡券名称</th>
+                <th>获得几率</th>
+                <th>操作</th>
+            </tr>
+            {loop $data $r}
+            <tr>
+                <td>{$r['id']}</td>
+                <td>{$r['name']}</td>
+                <td>{$r['point']}</td>
+                <td><a href="{php echo $this->createWebUrl('delkq')}&id={$r['id']}" class="btn btn-danger">删除</a></td>
+            </tr>
+            {/loop}
+        </table>
+    </div>
+</div>

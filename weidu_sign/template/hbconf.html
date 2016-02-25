@@ -1,0 +1,150 @@
+{template "common/header"}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('Config');}">签到设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('jfconf');}">积分奖励设置</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('hbconf');}">红包奖励设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('kqconf');}">卡券 / 实物 奖励设置</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">操作</div>
+	<div class="panel-body">
+		<form action="{php echo $this->createWebUrl('doaddhb')}" method="post">
+		<table class="table table-default">
+			<tr>
+				<th>红包名称</th>
+				<th>红包金额</th>
+				<th>红包数量</th>
+				<th>获得几率</th>
+			</tr>
+			<tr>
+				<td><input name="name" placeholder="新年大礼包" type="text" class="form-control"></td>
+				<td><input name="price" placeholder="3" type="text" class="form-control"></td>
+				<td><input name="num" placeholder="3" type="text" class="form-control"></td>
+				<td><input name="point" placeholder="100" type="text" class="form-control"></td>
+			</tr>
+		</table>
+		<input class="btn btn-success" type="submit" value="+ 增加红包">
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">红包设置</div>
+	<div class="panel-body">
+	<form action="{php echo $this->createWebUrl('dohbconf')}" method="post">
+	<table class="table table-default">
+		<tr>
+			<th>红包ID</th>
+			<th>红包名称</th>
+			<th>红包金额</th>
+			<th>红包数量</th>
+			<th>获得几率</th>
+			<th>操作</th>
+		</tr>
+		{loop $data $r}
+		<tr>
+			<td>{$r['id']}</td>
+			<td>{$r['name']}</td>
+			<td>{$r['price']}</td>
+			<td>{$r["num"]}</td>
+			<td>{$r["point"]}</td>
+			<td><a data-id="{$r['id']}"" href="javascript:void(0);" class="btn btn-primary">修改</a> | <a href="{php echo $this->createWebUrl('dodelhb')}&id={$r['id']}" class="btn btn-danger">删除</a></td>
+		</tr>
+		{/loop}
+	</table>
+	</form>
+	</div>
+</div>
+<div class="modal fade edit" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header head-edit">
+				修改红包
+			</div>
+			<div class="modal-body body-edit">
+			<form action="{php echo $this->createWebUrl('doedithb')}" method="post">
+				<div class="row hidden">
+					<div class="col-xs-3">id:</div>
+					<div class="col-xs-8"><input name="id" type="text" class="form-control"></div>
+					<div class="col-xs-1"></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-3">红包名称:</div>
+					<div class="col-xs-8"><input name="name" type="text" class="form-control"></div>
+					<div class="col-xs-1"></div>
+				</div>
+				<p></p>
+				<div class="row">
+					<div class="col-xs-3">红包金额:</div>
+					<div class="col-xs-8"><input name="price" type="text" class="form-control"></div>
+					<div class="col-xs-1"></div>
+				</div>
+				<p></p>
+				<div class="row">
+					<div class="col-xs-3">红包数量:</div>
+					<div class="col-xs-8"><input name="num" type="text" class="form-control"></div>
+					<div class="col-xs-1"></div>
+				</div>
+				<p></p>
+				<div class="row">
+					<div class="col-xs-3">获得几率:</div>
+					<div class="col-xs-8"><input name="point" type="text" class="form-control"></div>
+					<div class="col-xs-1"></div>
+				</div>
+				<p></p>
+			</div>
+			<div class="modal-footer">
+				<input type="submit" class="btn btn-success" value="确定">
+			</div>
+			</form>
+		 </div>
+	</div>
+</div>
+
+<script>
+	function typeselect($id){
+		$('.show table').eq($id).show()
+	}
+	function typenoselect($id) {
+		$('.show table').eq($id).hide()
+	}
+	function initialize(){
+		$signtypecount = $('.signtype').length
+		for (var i = 0;i < $signtypecount ; i++){
+			if($('.signtype').eq(i).prop('checked')){
+				typeselect(i)
+			}else{
+				typenoselect(i)
+			}
+		}
+	}
+	$('.btn-primary').click(function(){
+		$id = $(this).attr('data-id')
+		$url = "{php echo $this->createWebUrl('edithb')}"
+		$data = {'id':$id}
+		$.ajax({
+			url : $url,
+			data : $data,
+			type : "get",
+			success : function(data){
+				data = jQuery.parseJSON(data);
+				$('.modal [name=id]').val(data.id)
+				$('.modal [name=name]').val(data.name)
+				$('.modal [name=price]').val(data.price)
+				$('.modal [name=num]').val(data.num)
+				$('.modal').modal('show')
+			}
+		})
+	})
+	$('.signtype').click(function(){
+		$signtype = []
+		initialize()
+	})
+	$('[name=jltype]').click(function(){
+		$jls = []
+		initialize()
+		// alert($jls)
+	})
+	initialize()
+	jlclick()
+</script>
+{template "common/footer"}

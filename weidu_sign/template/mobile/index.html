@@ -1,0 +1,211 @@
+<html>
+    <head>
+        <title>签到</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+        <link href="http://cdn.bootcss.com/uikit/2.24.3/css/uikit.almost-flat.min.css" rel="stylesheet">
+        <link href="http://cdn.bootcss.com/owl-carousel/1.32/owl.carousel.css" rel="stylesheet">
+        <link href="http://cdn.bootcss.com/owl-carousel/1.32/owl.theme.min.css" rel="stylesheet">
+        <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/owl-carousel/1.32/owl.carousel.js"></script>
+        <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body{
+                font-family: "Microsoft YaHei UI", "微软雅黑", "宋体";
+                background-color: #f0f0f0;
+            }
+            a , a:visited{
+                text-shadow: none;
+                color: #FFF;
+            }
+            .sign-navbar{
+                background-color: #f24f4f;
+                color: #FFF;
+            }
+            .uk-navbar{
+                text-shadow: none;
+            }
+            .sign-top{
+                background: url(/addons/weidu_sign/template/images/top-bg.jpg);
+                background-size : 100% 100%;
+                padding : 10px 0;
+                color:#FFF;
+            }
+            .sign-button{
+                color: #444;
+                background: #ff7f46;
+                border-radius: 0;
+                text-shadow:none;
+            }
+            .sign-content , .sign-content h5{
+                background-color: #FFF;
+                color: #ff7d44;
+            }
+            .uk-panel-box{
+                background: none;
+                border: none;
+                border-radius: 0;
+                color: #ff7d44;
+            }
+            .sign-panel{
+                padding: 60px 0;
+            }
+            #owl-demo .item img{
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+            .sign-list{
+                background-color: #FFF;
+            }
+            .sign-list .uk-panel{
+                padding: 20px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="uk-navbar uk-navbar-attached sign-navbar">
+            <div class="uk-navbar-nav uk-navbar-brand">
+                <a href="#"><i class="uk-icon-chevron-left"></i></a>
+            </div>
+            <div class="uk-navbar-flip uk-navbar-brand">
+                <a href="#"><i class="uk-icon-home"></i></a>
+            </div>
+            <div class="uk-navbar-content uk-navbar-center">每日签到</div>
+        </div>
+        <div class="sign-top">
+            <div class="uk-container uk-text-truncate">
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="uk-grid">
+                            <div class="uk-width-1-2">
+                                <img src="/addons/weidu_sign/template/images/jf-logo.png" class="uk-thumbnav">
+                            </div>
+                            <div class="uk-width-1-2">
+                                <div>
+                                    <span style="font-size: 24px;">96</span><span>积分</span>
+                                </div>
+                                <div >
+                                    <span>明日可领</span><span>15</span><span>个</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-2 uk-text-truncate">
+                        <div class="uk-text-right uk-margin-bottom uk-text-large">每天签到都会有机会获得实物奖励!</div>
+                        <div>
+                            <a href="javascript:void(0);" class="uk-button uk-width-1-1 uk-button-large sign-button"><i class="uk-icon-rmb"></i> 签到领取积分</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-container uk-margin-top uk-margin-bottom uk-text-center sign-content " style="padding: 20px 0">
+            <div class="uk-grid">
+                <div class="uk-width-1-2" style="border-right: solid 1px #c9c9c9">
+                    <div class="uk-panel uk-panel-box sign-panel">
+                        <span style="font-size: 48px">5</span><span>天</span>
+                        <h5>
+                            连续签到
+                        </h5>
+                    </div>
+                </div>
+                <div class="uk-width-1-2">
+                    <div class="logo">
+                        <img src="/addons/weidu_sign/template/images/pig.png" class="thumbnav">
+                        <h5>您有<span class="uk-text-large">9999</span>积分</h5>
+                    </div>
+                    <div class="text"></div>
+                </div>
+            </div>
+        </div>
+        <div id="owl-demo" class="owl-carousel owl-theme">
+            <div class="item"><img src="/addons/weidu_sign/template/images/p1.png"></div>
+            <div class="item"><img src="/addons/weidu_sign/template/images/p1.png"></div>
+            <div class="item"><img src="/addons/weidu_sign/template/images/p1.png"></div>
+            <div class="item"><img src="/addons/weidu_sign/template/images/p1.png"></div>
+        </div>
+        <div class="uk-container uk-margin-top sign-list">
+            <div class="uk-panel uk-panel-box">
+                <div class="uk-panel-title">
+                    馨馨的大猫 领取了 农家糙米
+                </div>
+                    <img src="/addons/weidu_sign/template/images/goods_1.png" class="uk-thumbnav uk-width-1-1">
+                    <div class="uk-text-small uk-width-1-1">
+                        <div class="uk-text-muted uk-margin-top"">2016-02-24</div>
+                        <div class="progress uk-margin-top">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                <span style="padding-left: 10px">45% Complete</span>
+                            </div>
+                        </div>
+                        <div class="uk-margin-top">
+                            <div><span>$:</span><span style="font-size: 24px">68.00</span><span class="uk-text-muted uk-align-right"><span>68000</span><span>积分</span></span></div>
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="uk-container uk-margin-top sign-list">
+            <div class="uk-panel uk-panel-box">
+                <div class="uk-panel-title">
+                    馨馨的大猫 领取了 农家糙米
+                </div>
+                <img src="/addons/weidu_sign/template/images/goods_1.png" class="uk-thumbnav uk-width-1-1">
+                <div class="uk-text-small uk-width-1-1">
+                    <div class="uk-text-muted uk-margin-top"">2016-02-24</div>
+                <div class="progress uk-margin-top">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                        <span style="padding-left: 10px">45% Complete</span>
+                    </div>
+                </div>
+                <div class="uk-margin-top">
+                    <div><span>$:</span><span style="font-size: 24px">68.00</span><span class="uk-text-muted uk-align-right"><span>68000</span><span>积分</span></span></div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="uk-container uk-margin-top sign-list">
+            <div class="uk-panel uk-panel-box">
+                <div class="uk-panel-title">
+                    馨馨的大猫 领取了 农家糙米
+                </div>
+                <img src="/addons/weidu_sign/template/images/goods_1.png" class="uk-thumbnav uk-width-1-1">
+                <div class="uk-text-small uk-width-1-1">
+                    <div class="uk-text-muted uk-margin-top"">2016-02-24</div>
+                <div class="progress uk-margin-top">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                        <span style="padding-left: 10px">45% Complete</span>
+                    </div>
+                </div>
+                <div class="uk-margin-top">
+                    <div><span>$:</span><span style="font-size: 24px">68.00</span><span class="uk-text-muted uk-align-right"><span>68000</span><span>积分</span></span></div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $("#owl-demo").owlCarousel({
+                    navigation:false,
+                    slideSpeed : 300,
+                    pagination : false,
+                    singleItem:true,
+                    autoHeight : true,
+                    autoPlay : 3000,
+                });
+            });
+            $url = "{php echo $this->createMobileUrl('dosign')}"
+            $('.sign-button').click(function(){
+                $.ajax({
+                    url : $url,
+                    success : function(data){
+                        alert(data)
+                    }
+                })
+            })
+        </script>
+    </body>
+</html>

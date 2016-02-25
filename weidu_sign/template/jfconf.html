@@ -1,0 +1,87 @@
+{template "common/header"}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('Config');}">签到设置</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('jfconf');}">积分奖励设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('hbconf');}">红包奖励设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('kqconf');}">卡券 / 实物 奖励设置</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">积分随机设置</div>
+	<div class="panel-body">
+	<form action="{php echo $this->createWebUrl('dojfconf')}" method="post">
+		<table class="table">
+			<tr>
+				<th>名称</th>
+				<th>参数</th>
+			</tr>
+			<tr>
+				<td>持续天数</td>
+				<td>
+					<div class="input-group">
+						<input name="daymin" type='text' class="form-control" value="{$data['daymin']}" />
+						<span class="input-group-addon">~</span>
+						<input name="daymax" type='text' class="form-control" value="{$data['daymax']}" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>每天获得积分</td>
+				<td>
+					<input name="addjf" type='text' class="form-control " value="{$data['addjf']}" />
+				</td>
+			</tr>
+			<tr>
+				<td>是否随机增加</td>
+				<td>
+					<label><input type="radio" name="random" value="0" {if !$data['random']}checked="checked"{/if}>否</label>
+					<label><input type="radio" name="random" value="1" {if $data['random']}checked="checked"{/if}>是</label>
+				</td>
+			</tr>
+			<tr>
+				<td>获得几率</td>
+				<td>
+					<input name="point" type="text" class="form-control"  value="{$data['point']}" disabled="disabled">
+				</td>
+			</tr>
+			<tr>
+				<td>随机最小值</td>
+				<td><input name="randmin" type="text" class="form-control"  value="{$data['randintmin']}" disabled="disabled"></td>
+			</tr>
+			<tr>
+				<td>随机最大值</td>
+				<td><input name="randmax" type="text" class="form-control"  value="{$data['randintmax']}" disabled="disabled"></td>
+			</tr>
+		</table>
+		<input type="submit" class="btn btn-success">
+	</form>
+	</div>
+</div>
+<script>
+    $(document).ready(function(){
+       if($('[type=radio]').eq(0).attr('checked') == 'checked'){
+           lock()
+       }else{
+           unlock()
+       }
+
+    })
+	function unlock() {
+		$('[name=randmin]').attr('disabled' , false)
+		$('[name=randmax]').attr('disabled' , false)
+		$('[name=point]').attr('disabled' , false)
+	}
+	function lock() {
+		$('[name=randmin]').attr('disabled' , 'disabled')
+		$('[name=randmax]').attr('disabled' , 'disabled')
+		$('[name=point]').attr('disabled' , 'disabled')
+	}
+	$('[name=random]').click(function(){
+		$id = $(this).val()
+		if($id != 0){
+			unlock()
+		}else{
+			lock()
+		}
+	})
+</script>
+{template "common/footer"}

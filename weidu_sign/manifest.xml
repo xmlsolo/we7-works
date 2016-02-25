@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+
+	<application setting="false">
+
+		<name><![CDATA[积分签到]]></name>
+
+		<identifie><![CDATA[weidu_sign]]></identifie>
+
+		<version><![CDATA[1.0]]></version>
+
+		<type><![CDATA[business]]></type>
+
+		<ability><![CDATA[积分签到]]></ability>
+
+		<description><![CDATA[积分签到]]></description>
+
+		<author><![CDATA[zwent]]></author>
+
+		<url><![CDATA[http://bbs.we7.cc/]]></url>
+
+	</application>
+
+	<platform>
+
+		<subscribes>
+			<message type="text" />
+
+		</subscribes>
+
+		<handles>
+			<message type="text" />
+
+		</handles>
+
+		<rule embed="true" />
+
+		<card embed="false" />
+
+	</platform>
+
+	<bindings>
+		<menu>
+			<entry title="签到设置" do="config" state="" direct="false" />
+			<entry title="签到列表" do="signlist" state="" direct="false" />
+			<entry title="奖励列表" do="prizelist" state="" direct="false" />
+		</menu>
+
+	</bindings>
+
+	<permissions>
+
+	</permissions>
+
+	<crons>
+
+	</crons>
+
+	<install><![CDATA[]]></install>
+
+	<uninstall><![CDATA[]]></uninstall>
+
+	<upgrade><![CDATA[]]></upgrade>
+
+</manifest>
