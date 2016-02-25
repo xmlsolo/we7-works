@@ -39,16 +39,18 @@ class Weidu_signModuleSite extends WeModuleSite
         if (in_array(2, $arr_sign_type) and in_array(1, $arr_sign_rand)) $this->randsign('hb');
         if (in_array(2, $arr_sign_type) and in_array(2, $arr_sign_rand)) $this->randsign('kq');
         if (in_array(2, $arr_sign_type) and in_array(3, $arr_sign_rand)) $this->randsign('sw');
-//        return die('签到成功');
     }
 
+    /**
+     * @param $point
+     * @return bool
+     */
     private function randpoint($point)
     {
-        $req = rand(1, 100);
-        return $req < $point ? true : false;
+        return rand(1, 100) < $point ? true : false;
     }
 
-//    积分奖励
+//积分奖励
     private function jfsign()
     {
 //        checkauth();
@@ -58,32 +60,87 @@ class Weidu_signModuleSite extends WeModuleSite
         if ($req['random']) {
             if ($this->randpoint(intval($req['point']))) {
                 $jf = rand(intval($req['randintmin']), intval($req['randintmax']));
-                echo '您以获得 ' . $jf . ' 点积分!';
+                echo '您以获得 ' . $jf . ' 点积分!<br/>';
             }
         };
-        echo '您以获得 ' . intval($req['addjf']) . ' 积分奖励!';
+        echo '您以获得 ' . intval($req['addjf']) . ' 积分奖励!<br/>';
     }
 
-//    随机奖励
+//随机奖励
+    /**
+     * @param $type
+     */
     private function randsign($type)
     {
 //        checkauth();
         $db_kq = 'weidu_sign_kqconf';
         $db_hb = 'weidu_sign_hbconf';
         switch ($type) {
+//            红包
             case 'hb':
-                echo '红包奖励!';
+                $ids = array();
+                $sql_hb = 'SELECT * FROM ' . tablename($db_hb);
+                $req_hb = pdo_fetchall($sql_hb);
+                foreach ($req_hb as $v) {
+                    $ids[] = $v['id'];
+                }
+                $id = $this->randselect($req_hb);
+//                判断 id 是否在红包表中
+                if (in_array($id, $ids)) {
+                    foreach ($req_hb as $v) {
+//                        发放红包
+//                        发放红包完成后 输出
+                        if ($v['id'] == $id) echo('您抽中了 ' . $v['name'] . ' 恭喜您!<br/>');
+                        break;
+                    }
+                } else {
+                    echo('您没有抽中红包!<br/>');
+                    break;
+                }
                 break;
+//            卡券
             case 'kq':
-                echo '卡券奖励!';
+                echo '卡券奖励!<br/>';
                 break;
+//            实物
             case 'sw':
-                echo '实物奖励!';
+                echo '实物奖励!<br/>';
                 break;
             default:
-                echo '找不到奖励类型!';
+                echo '找不到奖励类型!<br/>';
                 break;
         }
+    }
+
+//几率选择奖励
+    /**
+     * @param $arr
+     * @return mixed
+     */
+    private function randselect($arr)
+    {
+        $req = array();
+        $num = rand(1, 100);
+        foreach ($arr as $key => $v) {
+            $point = array();
+            $point['id'] = $v['id'];
+            !$key ? $point['min'] = 1 : $point['min'] = $req[$key - 1]['max'] + 1;
+            $point['max'] = $point['min'] + $v['point'] - 1;
+            $req[] = $point;
+        }
+//        判断空值
+        if (!in_array(100, $req)) $req[] = array(
+            'min' => end($req)['max'] + 1,
+            'max' => 100
+        );
+        foreach ($req as $v) {
+            if ($this->in_point($num, $v['min'], $v['max'])) return $v['id'];
+        }
+    }
+
+    private function in_point($num, $min, $max)
+    {
+        return $num > $min and $num <= $max ? true : false;
     }
 
     public function doMobilesign()
