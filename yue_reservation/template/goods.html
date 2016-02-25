@@ -1,0 +1,110 @@
+{template "common/header"}
+<style>
+	table th,table td{
+		text-align: center;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('Goods')}">商品列表</a></li>
+	<li><a href="{php echo $this->createWebUrl('AddNewGoods')}">添加新商品</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">商品搜索</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-xs-2">
+				<select name="type" id="" class="form-control">
+					<option value="1"{if $where['type'] == 1} selected="selected"{/if}>商品ID</option>
+					<option value="2"{if $where['type'] == 2} selected="selected"{/if}>商品名称</option>
+				</select>
+			</div>
+			<div class="{if $type}col-xs-9{else}col-xs-10{/if}">
+				<div class="input-group">
+					<input name="keyword" type="text" class="form-control keywords" value="{$where['keywords']}" placeholder="搜索">
+					<a class="input-group-addon btn btn-default" id="search" href="javascript:void(0);"><i class="glyphicon glyphicon-search"></i> 搜索</a>
+				</div>
+			</div>
+			{if $type}
+			<div class="col-xs-1">
+				<a class="btn btn-default" href="{php echo $this->createWebUrl('Goods'); }">显示全部</a>
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">商品列表</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover">
+			<tr>
+				<th>ID</th>
+				<th>商品名称</th>
+				<th>缩略图</th>
+				<th>按摩师</th>
+				<th>所在商铺</th>
+				<th>订单数</th>
+				<th>操作</th>
+			</tr>
+			{loop $info $r}
+			<tr>
+				<th>{$r['id']}</th>
+				<th>{$r['name']}</th>
+				<th><div style="margin:0 auto;max-width:60px;min-width:45px;"><img src="/attachment/{$r['thumb']}" alt="" class="img-responsive" style="height:45px;"></div></th>
+				<th>{php show_worker_name($r['workers'],'|')}</th>
+				<th>{php show_shop_name($r['shops'] , '|')}</th>
+				<th>{$r['orders']}</th>
+				<th><a href="{php echo $this->createWebUrl('EditGoods');}&id={$r['id']}" target="_blank" class="btn btn-success editBtn">修改</a> <a href="javascript:void(0);" class="btn btn-danger delBtn" data-id="{$r['id']}">删除</a></th>
+			</tr>
+			{/loop}
+		</table>
+		{$page}
+	</div>
+</div>
+<div class="modal fade message" id="message" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header head-message">
+				添加成功
+			</div>
+			<div class="modal-body body-message">
+				商铺已添加成功！
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:void(0);" class="btn btn-success reload">确定</a>
+			</div>
+		 </div>
+	</div>
+</div>
+<script>
+	$("#search").click(function(){
+		$type = $('[name=type]').val();
+		$keywords = $('[name=keyword]').val();
+		$url = "{php echo $this->createWebUrl('Goods'); }&type="+$type+'&keywords='+$keywords;
+		location.href = $url
+	})
+	$('.delBtn').click(function(){
+		$id = $(this).attr('data-id')
+		$url = "{php echo $this->createWebUrl('DelGoods')}"
+		$data = {
+			id:$id
+		}
+		$.ajax({
+			url:$url,
+			data:$data,
+			type:'get',
+			success:function(data){
+				if (data = '删除成功！') {
+					$('.head-message').html('删除成功！')
+				}else{
+					$('.head-message').html('删除失败！')
+				};
+				$('.body-message').html(data)
+				$('.message').modal('show')
+			},
+		})
+	})
+	$('.reload').click(function(){
+		window.location.reload()
+	})
+</script>
+{template "common/footer"}

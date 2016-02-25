@@ -1,0 +1,233 @@
+{template "common/header"}
+<style>
+	table th,table td{
+		text-align: center;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li class="active"><a href="javascript:void(0);">店铺列表</a></li>
+	<li><a href="javascript:void(0);" id="addNewShop">添加新店铺</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">店铺列表</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover">
+			<tr>
+				<th>ID</th>
+				<th>店铺名称</th>
+				<th>店铺位置</th>
+				<th>店铺简介</th>
+				<th>操作</th>
+			</tr>
+			{loop $info $r}
+			<tr>
+				<td>{$r['id']}</td>
+				<td>{$r['name']}</td>
+				<td>{$r['add']}</td>
+				<td>{$r['description']}</td>
+				<td><a href="javascript:void(0);" class="btn btn-info edit" data-id="{$r['id']}">修改</a> <a href="javascript:void(0);" class="btn btn-danger del" data-id="{$r['id']}">删除</a></td>
+			</tr>
+			{/loop}
+		</table>
+	</div>
+</div>
+<div class="modal fade message" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header head-message">
+				添加成功
+			</div>
+			<div class="modal-body body-message">
+				商铺已添加成功！
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:void(0);" class="btn btn-success reload">确定</a>
+			</div>
+		 </div>
+	</div>
+</div>
+<div class="modal fade addNewShop_dialog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+					添加商铺<span style="float:right"><button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button></span>
+			</div>
+			<div class="modal-body">
+					<p>
+						<div class="row">
+							<div class="col-xs-2">店铺名称:</div>
+							<div class="col-xs-8"><input name="shopname" type="text" class="form-control"></div>
+							<div class="col-xs-2"><small class="red"></small></div>
+						</div>
+					</p>
+					<p>
+						<div class="row">
+							<div class="col-xs-2">店铺位置:</div>
+							<div class="col-xs-8">
+								<div class="row">
+									<div class="col-xs-4">山东省东营市</div>
+									<div class="col-xs-8"><input name="add" type="text" class="form-control" placeholder="东营区黄河路112号"></div>
+								</div>
+							</div>
+							<div class="col-xs-2"><small class="red"></small></div>
+						</div>
+					</p>
+					<p>
+						<div class="row">
+							<div class="col-xs-2">店铺简介:</div>
+							<div class="col-xs-8"><textarea name="descriptions" class="form-control"></textarea></div>
+							<div class="col-xs-2"><small class="red"></small></div>
+						</div>
+					</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-success doaddShop" href="javascript:void(0);">确认添加</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade editNewShop_dialog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+					修改商铺<span style="float:right"><button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button></span>
+			</div>
+			<div class="modal-body">
+					<p class="hide"><input type="text" name="id" value=""></p>
+					<p>
+						<div class="row">
+							<div class="col-xs-2">店铺名称:</div>
+							<div class="col-xs-8"><input name="shopname" type="text" class="form-control"></div>
+							<div class="col-xs-2"><small class="red"></small></div>
+						</div>
+					</p>
+					<p>
+						<div class="row">
+							<div class="col-xs-2">店铺位置:</div>
+							<div class="col-xs-8">
+								<div class="row">
+									<div class="col-xs-4">山东省东营市</div>
+									<div class="col-xs-8"><input name="add" type="text" class="form-control" placeholder="东营区黄河路112号"></div>
+								</div>
+							</div>
+							<div class="col-xs-2"><small class="red"></small></div>
+						</div>
+					</p>
+					<p>
+						<div class="row">
+							<div class="col-xs-2">店铺简介:</div>
+							<div class="col-xs-8"><textarea name="descriptions" class="form-control"></textarea></div>
+							<div class="col-xs-2"><small class="red"></small></div>
+						</div>
+					</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-success doeditShop" href="javascript:void(0);">确认修改</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('#addNewShop').click(function(){
+		$('.addNewShop_dialog').modal('show');
+	})
+	$('.edit').click(function(){
+		$('.editNewShop_dialog').modal('show');
+		$id = $(this).attr('data-id')
+		$url = '{php echo $this->createWebUrl('GetShop')}'
+		$data = {
+			id:$id
+		}
+		$.ajax({
+			type:"post",
+			data:$data,
+			datatype:'json',
+			url:$url,
+			success:function(data){
+				$data = jQuery.parseJSON(data);
+				$('.editNewShop_dialog ').find('[name=shopname]').val($data['name'])
+				$('.editNewShop_dialog ').find('[name=add]').val($data['add'])
+				$('.editNewShop_dialog ').find('[name=descriptions]').val($data['description'])
+				$('.editNewShop_dialog ').find('[name=id]').val($data['id'])
+			}
+		})
+	})
+	$('.doeditShop').click(function(){
+		$('.editNewShop_dialog').modal('hide');
+		$('.message').modal('show')
+		$data = {
+			name:$('.editNewShop_dialog ').find('[name=shopname]').val(),
+			add:$('.editNewShop_dialog ').find('[name=add]').val(),
+			description:$('.editNewShop_dialog ').find('[name=descriptions]').val(),
+			id:$('.editNewShop_dialog ').find('[name=id]').val()
+		}
+
+		$url = '{php echo $this->createWebUrl('Shop_edit')}'
+		$.ajax({
+			url:$url,
+			data: $data,
+			type:"post",
+			success:function(data){
+				if (data) {
+					$h_message = '修改成功'
+					$b_message = '商铺以修改完成！'
+				};
+				$('.head-message').html($h_message)
+				$('.body-message').html($b_message)
+				$('.editNewShop_dialog').modal('hide')
+			},
+		})
+	})
+	$('.del').click(function(){
+		$('.message').modal('show');
+		$id = $(this).attr('data-id')
+		$url = '{php echo $this->createWebUrl('DelShop');}'
+		$data = {
+			id:$id
+		}
+		$.ajax({
+			type:'get',
+			data:$data,
+			url:$url,
+			success:function(data){
+				if (data) {
+					$h_message = '删除成功'
+					$b_message = '商铺以删除完成！'
+				};
+				$('.head-message').html($h_message)
+				$('.body-message').html($b_message)
+			},
+		})
+	})
+	$('.doaddShop').click(function(){
+		$('.addNewShop_dialog').modal('hide');
+		$('.message').modal('show');
+		$data = {
+			name:$('.addNewShop_dialog ').find('[name=shopname]').val(),
+			add:$('.addNewShop_dialog ').find('[name=add]').val(),
+			description:$('.addNewShop_dialog ').find('[name=descriptions]').val()
+		}
+
+		$url = '{php echo $this->createWebUrl('Shop_add')}'
+		$.ajax({
+			type:'post',
+			url:$url,
+			data:$data,
+			success:function(data){
+				if (data) {
+					$h_message = '添加成功'
+					$b_message = '商铺以成功添加完成！'
+				}else{
+					$h_message = '添加失败'
+					$b_message = '请重新添加！'
+				};
+				$('.head-message').html($h_message)
+				$('.body-message').html($b_message)
+			},
+		})
+	})
+	$('.reload').click(function(){
+		window.location.reload()
+	})
+</script>
+{template "common/footer"}

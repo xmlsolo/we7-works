@@ -1,0 +1,136 @@
+{template "common/header"}
+<style>
+	table th,table td{
+		text-align: center;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('Goods')}">订单列表</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">订单搜索</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-xs-2">
+				<select name="type" class="form-control">
+					<option value="1"{if $where['type'] == 1} selected="selected"{/if}>订单号</option>
+					<option value="2"{if $where['type'] == 2} selected="selected"{/if}>订单名称</option>
+					<option value="3"{if $where['type'] == 3} selected="selected"{/if}>订单人电话</option>
+				</select>
+			</div>
+			<div class="{if $type}col-xs-9{else}col-xs-10{/if}">
+				<div class="input-group">
+					<input name="keyword" type="text" class="form-control keywords" value="{$where['keywords']}" placeholder="搜索">
+					<a class="input-group-addon btn btn-default" id="search" href="javascript:void(0);"><i class="glyphicon glyphicon-search"></i> 搜索</a>
+				</div>
+			</div>
+			{if $type}
+			<div class="col-xs-1">
+				<a class="btn btn-default" href="{php echo $this->createWebUrl('Goods'); }">显示全部</a>
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">订单列表</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover">
+			<tr>
+				<th>订单号</th>
+				<th>订单名称</th>
+				<th>订单店铺</th>
+				<th>订单人</th>
+				<th>订单人电话</th>
+				<th>按摩师</th>
+				<th>按摩师电话</th>
+				<th>订单时间</th>
+				<th>预订时间</th>
+				<th>结束时间</th>
+				<th>当前状态</th>
+				<th>操作</th>
+			</tr>
+			{loop $info $r}
+			<tr>
+				<td>{$r['code']}</td>
+				<td>{$r['name']}</td>
+				<td>{php show_shop_name($r['shop'])}</td>
+				<td>{$r['buyer_name']}</td>
+				<td>{$r['buyer_phone']}</td>
+				<td>{$r['worker_name']}</td>
+				<td>{$r['worker_phone']}</td>
+				<td>{php echo date('m月d日 h:i' ,$r['addtime'])}</td>
+				<td>{php echo date('m月d日 h:i' ,$r['time'])}</td>
+				<td>{if $r['overtime']}{php echo date('m月d日 h:i' ,$r['overtime'])}{else}----{/if}</td>
+				<!-- {php echo date('m月d日 h:i' ,$r['overtime'])} -->
+				<td>{if $r['state'] == 'waiting'}等待接收订单{/if}
+				{if $r['state'] == 'buyerfail'}买家已放弃订单{/if}
+				{if $r['state'] == 'workerfail'}卖家已放弃订单{/if}
+				{if $r['state'] == 'accept'}已接受订单{/if}
+				{if $r['state'] == 'ordered'}已完成订单{/if}</td>
+				<td>
+					<a class="btn btn-warning message_btn" data-id="{$r['buyer_openid']}" data-name="{$r['buyer_name']}" data-goods-id="{$r['goods_id']}" href="javascript:void(0);">发送信息</a>
+					<br>
+					{if $r['state'] == 'waiting'}<a class="btn btn-info" href="{php echo $this->createWebUrl('WorkerAccept')}&id={$r['id']}&openid={$r['buyer_openid']}">接受订单</a>
+					<br>{/if}
+					{if $r['state'] == 'accept'}<a class="btn btn-success" href="{php echo $this->createWebUrl('OrderSuccess')}&id={$r['id']}&openid={$r['buyer_openid']}">订单成功</a>
+					<br>{/if}
+					{if $r['state'] == 'ordered' || $r['state'] == 'workerfail' || $r['state'] == 'buyerfail'}{else}<a class="btn btn-danger" href="{php echo $this->createWebUrl('OrderFail')}&id={$r['id']}&openid={$r['buyer_openid']}">取消订单</a>{/if}
+				</td>
+			</tr>
+			{/loop}
+		</table>
+	{$page}
+	</div>
+</div>
+<div class="modal fade sendMessage" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header head-message">
+				添加成功
+			</div>
+			<div class="modal-body body-message">
+				<p>发送人：<input type="text" class="form-control" name="name" value="" Disabled></p>
+				<p>OPENID：<input type="text" class="form-control" name="openid" value="" Disabled></p>
+				<p>要发送信息：<textarea class="form-control" name="content" placeholder="您的订单......" ></textarea></p>
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:void(0);" class="btn btn-success send">确定</a>
+			</div>
+		 </div>
+	</div>
+</div>
+
+<script>
+$("#search").click(function(){
+		$type = $('[name=type]').val();
+		$keywords = $('[name=keyword]').val();
+		$url = "{php echo $this->createWebUrl('Reservation'); }&type="+$type+'&keywords='+$keywords;
+		location.href = $url
+	})
+	$('.message_btn').click(function(){
+		$openid = $(this).attr('data-id')
+		$name = $(this).attr('data-name')
+		$goods_id = $(this).attr('data-goods-id')
+		$('.sendMessage').modal('show')
+		$('.sendMessage .modal-body').find('[name=openid]').val($openid)
+		$('.sendMessage .modal-body').find('[name=name]').val($name)
+
+		$('.send').click(function(){
+			$url = '{php echo $this->createWebUrl('SendMessage')}'
+			$data = {
+				openid:$openid,
+				goods_id:$goods_id,
+				content:$('[name=content]').val()
+			}
+			$.ajax({
+				url:$url,
+				data:$data,
+				success:function(data){
+					alert(data)
+				}
+			})
+		})
+	})
+</script>
+{template "common/footer"}

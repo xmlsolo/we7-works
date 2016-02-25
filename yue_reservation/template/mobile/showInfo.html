@@ -1,0 +1,12 @@
+{template "header"}
+<div class="container">
+{$info['name']}
+	{php echo html_entity_decode($info['content']);}
+</div>
+
+<div class="navbar navbar-default navbar-fixed-bottom">
+	<div class="btn-group btn-group-justified" role="group">
+		<a href="javascript:history.back(-1);" class="btn btn-primary btn-lg" id="back" role="button">返回</a>
+		<a href="{php echo $this->createMobileUrl('DoAddOrder')}&id={$id}" class="btn btn-info btn-lg" id="DoAddOrder" role="button">预约</a>
+	</div>
+</div>

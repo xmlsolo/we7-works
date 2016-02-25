@@ -1,0 +1,49 @@
+{template "header"}
+<link href="/addons/yue_reservation/template/mobile/css/lrtk.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/addons/yue_reservation/template/mobile/js/jquery.js"></script>
+<script type="text/javascript" src="/addons/yue_reservation/template/mobile/js/lrtk.js"></script>
+<style>
+	@media screen and (max-width: 500px){
+		.slide-box,.slide{
+			height: 260px;
+		}
+		.slide img{
+			width: 80px;
+		}
+	}
+</style>
+<p></p>
+<div class="container">
+	<div class="slide-main">
+		<div class="slide-box">
+			<div class="slide" style="display:block;">
+				<div class="row">
+					{loop $info $r}
+					<div class="col-xs-4">
+						<a href="{php echo $this->createMobileUrl('ShowInfo')}&id={$r['id']}"><img src="/attachment/{$r['thumb']}" alt="{$r['name']}"></a>
+					</div>
+					{/loop}
+				</div>
+			</div>
+			<div class="slide">
+				<div class="row">
+					{loop $info $r}
+					<div class="col-xs-4">
+						<a href="{php echo $this->createMobileUrl('ShowInfo')}&id={$r['id']}"><img src="/attachment/{$r['thumb']}" alt="{$r['name']}"></a>
+					</div>
+					{/loop}
+				</div>
+			</div>
+			<div class="slide">
+				<div class="row">
+					{loop $info $r}
+					<div class="col-xs-4">
+						<a href="{php echo $this->createMobileUrl('ShowInfo')}&id={$r['id']}"><img src="/attachment/{$r['thumb']}" alt="{$r['name']}"></a>
+					</div>
+					{/loop}
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>

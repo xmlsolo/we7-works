@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta charset="utf-8">
+	<title>预订信息</title>
+	<link rel="stylesheet" href="./resource/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../addons/weidu_brand/template/css/uikit.css" />
+	<link rel="stylesheet" href="../addons/weidu_brand/template/css/index.css" />
+	<script src="../addons/weidu_brand/template/js/uikit.min.js"></script>
+	<script src="./resource/js/lib/bootstrap.min.js"></script>
+	<script src="./resource/js/lib/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<style>
+	table tr{
+		height: 40px;
+		line-height: 40px;
+	}
+</style>
+<nav class="navbar">
+    <div class="main uk-clearfix">
+        <div class="uk-float-right">
+            <a href="{php echo $this->createMobileUrl('index'); }"><i class="uk-icon-home uk-icon-small"></i></a>
+        </div>
+        <div class="uk-float-left">
+            <a href="javascript:void(0)" onclick="history.back()"><i class="uk-icon-chevron-left uk-icon-small"></i></a>
+        </div>
+        <span class="merchantName uk-text-center">预订信息</span>
+    </div>
+</nav>
+<table class="uk-table uk-table-striped" style="margin-top:48px;">
+	<tr>
+		<th class="uk-text-muted uk-text-right  ">订单名称:</th>
+		<td>{$info['goods']['name']}</td>
+	</tr>
+	<tr>
+		<th class="uk-text-muted uk-text-right  ">预订人:</th>
+		<td>{$info['res']['buyer_name']}</td>
+	</tr>
+	<tr>
+		<th class="uk-text-muted uk-text-right  ">预订人电话:</th>
+		<td><a href="tel:{$info['res']['worker_phone']}">{$info['res']['buyer_phone']}</a></td>
+	</tr>
+	<tr>
+		<th class="uk-text-muted uk-text-right  ">订单价格:</th>
+		<td>{$info[goods]['price']} 元</td>
+	</tr>
+	<tr>
+		<th class="uk-text-muted uk-text-right  ">订单简介:</th>
+		<td>{$info['goods']['description']}</td>
+	</tr>
+	<tr>
+		<th class="uk-text-muted uk-text-right  ">当前状态:</th>
+		<td>{if $info['res']['state'] == 'workerfail'}订单已被管理员取消{/if}{if $info['res']['state'] == 'buyerfail'}订单已自己取消{/if}{if $info['res']['state'] == 'accept'}订单已被接受{/if}{if $info['res']['state'] == 'ordered'}订单已成功{/if}{if $info['res']['state'] == 'waiting'}订单正在等待按摩师 [<span style="color:red">{$info['res']['worker_name']}</span>] 接受{/if}</td>
+	</tr>
+	<tr>
+		<th class="uk-text-muted uk-text-right  ">预订时间:</th>
+		<td>{php echo date('Y-m-d h:i' , $info['res']['time'])}</td>
+	</tr>
+</table>
+
+<footer class="footer uk-text-small uk-text-muted uk-text-center">
+	版权所有 &copy; 侵权必究<br>
+</footer>
+</body>
+</html>

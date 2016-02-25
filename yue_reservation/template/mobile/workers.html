@@ -1,0 +1,12 @@
+{template 'header'}
+<div class="container">
+	<div class="list-group">
+		{loop $info $r}
+		<a href="#" class="list-group-item">
+			<h4 class="list-group-item-heading">
+				{if $r['thumb']}/attachment/{$r['thumb']}{else}default.jpg{/if} - {$r['name']} - {$r['description']}
+			</h4>
+		</a>
+		{/loop}
+	</div>
+</div>

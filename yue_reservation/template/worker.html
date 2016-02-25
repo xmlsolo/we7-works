@@ -1,0 +1,333 @@
+{template "common/header"}
+<style>
+	table th,table td{
+		text-align: center;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li class="active"><a href="javascript:void(0);">按摩师列表</a></li>
+	<li><a href="javascript:void(0);" id="addNewWorker">添加新按摩师</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">按摩师列表</div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>UID</th>
+				<th>姓名</th>
+				<th>联系方式</th>
+				<th>所在的商铺</th>
+				<th>操作</th>
+			</tr>
+			{loop $info['worker'] $r}
+			<tr>
+				<td>{$r['id']}</td>
+				<td>{$r['uid']}</td>
+				<td>{$r['name']}</td>
+				<td>{$r['phone']}</td>
+				<td>{php show_shop_name($r['shopid'])}</td>
+				<td><a href="javascript:void(0);" class="btn btn-info edit" data-id="{$r['id']}">修改</a> <a href="javascript:void(0);" class="btn btn-danger del" data-id="{$r['id']}">删除</a></td>
+			</tr>
+			{/loop}
+		</table>
+	</div>
+</div>
+<div class="modal fade addNewWorderDialog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				添加新的按摩师
+			</div>
+			<div class="modal-body">
+			<p>
+					<div class="row">
+						<div class="col-xs-3">UID:</div>
+						<div class="col-xs-8"><input name="uid" type="text" class="form-control" placeholder="按摩师UID"></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">按摩师姓名:</div>
+						<div class="col-xs-8"><input name="name" type="text" class="form-control" placeholder="按摩师姓名"></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">按摩师照片:</div>
+						<div class="col-xs-8">{php echo tpl_form_field_image('thumb', $info['thumb']); }</div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">联系方式:</div>
+						<div class="col-xs-8"><input name="phone" type="text" class="form-control" placeholder="按摩师联系方式"></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">选择所在店铺:</div>
+						<div class="col-xs-8">
+							<select name="shop" class="form-control">
+							{loop $info['shop'] $r}
+								<option value="{$r['id']}">{$r['name']}</option>
+							{/loop}
+							</select>
+						</div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">简介:</div>
+						<div class="col-xs-8"><textarea name="descriptions" class="form-control" placeholder="按摩师简介"></textarea></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<div class="alert alert-danger" style="display:None;">
+					<a href="#" class="close" data-dismiss="alert">
+				 		&times;
+					</a>
+					<span>您的网络连接有问题。</span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:void(0);" class="btn btn-danger" id="closeNewWorkerBtn">取消</a>
+				<a href="javascript:void(0);" class="btn btn-success" id="addNewWorkerBtn">确定</a>
+			</div>
+		 </div>
+	</div>
+</div>
+<div class="modal fade editNewWorderDialog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				修改：<span id="title-name"></span> (<span id="title-uid"></span>) 按摩师
+			</div>
+			<div class="modal-body">
+			<p>
+					<div class="row">
+						<div class="col-xs-3">UID:</div>
+						<div class="col-xs-8"><input name="uid" type="text" class="form-control" placeholder="按摩师UID" disabled></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">按摩师姓名:</div>
+						<div class="col-xs-8"><input name="name" type="text" class="form-control" placeholder="按摩师姓名"></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+<div class="row">
+						<div class="col-xs-3">按摩师照片:</div>
+						<div class="col-xs-8">{php echo tpl_form_field_image('thumb', $info['thumb']); }</div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">联系方式:</div>
+						<div class="col-xs-8"><input name="phone" type="text" class="form-control" placeholder="按摩师联系方式"></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">选择所在店铺:</div>
+						<div class="col-xs-8">
+							<select name="shop" class="form-control">
+							{loop $info['shop'] $r}
+								<option value="{$r['id']}">{$r['name']}</option>
+							{/loop}
+							</select>
+						</div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<p>
+					<div class="row">
+						<div class="col-xs-3">简介:</div>
+						<div class="col-xs-8"><textarea name="descriptions" class="form-control" placeholder="按摩师简介"></textarea></div>
+						<div class="col-xs-1"></div>
+					</div>
+				</p>
+				<div class="alert alert-danger" style="display:None;">
+					<a href="#" class="close" data-dismiss="alert">
+				 		&times;
+					</a>
+					<span>您的网络连接有问题。</span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:void(0);" class="btn btn-danger closeNewWorkerBtn">取消</a>
+				<a href="javascript:void(0);" class="btn btn-success" id="editNewWorkerBtn">确定</a>
+			</div>
+		 </div>
+	</div>
+</div>
+<div class="modal fade message" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header head-message">
+				添加成功
+			</div>
+			<div class="modal-body body-message">
+				按摩师已添加成功！
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:void(0);" class="btn btn-success reload">确定</a>
+			</div>
+		 </div>
+	</div>
+</div>
+<script>
+
+	$('#addNewWorker').click(function(){
+		$('.addNewWorderDialog').modal('show')
+	})
+	$("#closeNewWorkerBtn").click(function(){
+		$(this).parents('.modal').modal('hide')
+	})
+	$(".closeNewWorkerBtn").click(function(){
+		$(this).parents('.modal').modal('hide')
+	})
+	$(".addNewWorderDialog").find('[name=uid]').change(function(){
+		$id = $(this).val()
+		$url = "{php echo $this->createWebUrl('GetWorkerInfo')}"
+		$data = {
+			id:$id
+		}
+		$.ajax({
+			type:"get",
+			url:$url,
+			data:$data,
+			datatype:"json",
+			success:function(data){
+				$data = jQuery.parseJSON(data)
+				$(".addNewWorderDialog").find('[name=name]').val($data['realname'])
+				$('.addNewWorderDialog').find("[name=phone]").val($data['mobile'])
+			}
+		})
+	})
+	$('#addNewWorkerBtn').click(function(){
+		$data = {
+			uid:$(".addNewWorderDialog").find('[name=uid]').val(),
+			name:$(".addNewWorderDialog").find('[name=name]').val(),
+			phone:$('.addNewWorderDialog').find("[name=phone]").val(),
+			shop:$('.addNewWorderDialog').find("[name=shop]").val(),
+			thumb:$('.addNewWorderDialog').find("[name=thumb]").val(),
+			description:$('.addNewWorderDialog').find("[name=descriptions]").val()
+		}
+		$url = "{php echo $this->createWebUrl('Addworker')}"
+		$.ajax({
+			url:$url,
+			data:$data,
+			type:"post",
+			success:function(data){
+				if (data != "添加成功！") {
+					$(".addNewWorderDialog .alert span").html(data)
+				}else{
+					$(".addNewWorderDialog .alert").removeClass('alert-danger')
+					$(".addNewWorderDialog .alert").removeClass('alert-success')
+					$(".addNewWorderDialog .alert").addClass('alert-success')
+					$('.addNewWorderDialog').modal('hide')
+					$(".head-message").html(' 添加成功！')
+					$(".body-message").html(data)
+					$('.message').modal('show')
+				};
+
+			}
+		})
+		$('.addNewWorderDialog .alert').show("fast")
+	})
+	$('.del').click(function(){
+		$id = $(this).attr('data-id')
+		$data = {
+			id:$id,
+		}
+		$url =" {php echo $this->createWebUrl('DelWorker')}"
+		$.ajax({
+			url:$url,
+			data:$data,
+			type:"get",
+			success:function(data){
+				$(".head-message").html('删除操作')
+				$(".body-message").html(data)
+				$('.message').modal('show')
+			},
+		})
+	})
+
+	$('.edit').click(function(){
+		$id = $(this).attr('data-id')
+		$data = {
+			id:$id
+		}
+		$url = "{php echo $this->createWebUrl('EditWorker')}"
+		$.ajax({
+			type:"get",
+			data:$data,
+			url:$url,
+			datatype:"json",
+			success:function(data){
+				$data = jQuery.parseJSON(data)
+				$('.editNewWorderDialog').modal("show")
+				$('.editNewWorderDialog #title-uid').html($data['uid'])
+				$('.editNewWorderDialog #title-name').html($data['name'])
+				$('.editNewWorderDialog').find('[name=uid]').val($data['uid'])
+				$('.editNewWorderDialog').find('[name=name]').val($data['name'])
+				$('.editNewWorderDialog').find('[name=phone]').val($data['phone'])
+				$('.editNewWorderDialog').find('[name=thumb]').val($data['thumb'])
+				$('.editNewWorderDialog').find('[name=descriptions]').val($data['description'])
+				$('.editNewWorderDialog').find('.img-thumbnail').attr('src','/attachment/'+$data['thumb'])
+				$('.editNewWorderDialog select option').each(function(){
+					if ($(this).val() == $data['shopid']){
+						$(this).attr('selected' , 'selected')
+					}
+				})
+			}
+		})
+	})
+
+	$('#editNewWorkerBtn').click(function(){
+		$data = {
+			uid:$(".editNewWorderDialog").find('[name=uid]').val(),
+			name:$(".editNewWorderDialog").find('[name=name]').val(),
+			phone:$('.editNewWorderDialog').find("[name=phone]").val(),
+			shop:$('.editNewWorderDialog').find("[name=shop]").val(),
+			thumb:$('.editNewWorderDialog').find("[name=thumb]").val(),
+			description:$('.editNewWorderDialog').find("[name=descriptions]").val()
+		}
+		$url = "{php echo $this->createWebUrl('DoEdit')}"
+		$.ajax({
+			url:$url,
+			data:$data,
+			type:'post',
+			success:function(data){
+				if (data != "修改成功！") {
+					$(".editNewWorderDialog .alert span").html(data)
+				}else{
+					$(".editNewWorderDialog .alert").removeClass('alert-danger')
+					$(".editNewWorderDialog .alert").removeClass('alert-success')
+					$(".editNewWorderDialog .alert").addClass('alert-success')
+					$('.editNewWorderDialog').modal('hide')
+					$(".head-message").html(' 修改成功！')
+					$(".body-message").html(data)
+					$('.message').modal('show')
+				};
+				$('.editNewWorderDialog .alert').show("fast")
+			}
+		})
+	})
+
+	$('.reload').click(function(){
+		window.location.reload()
+	})
+</script>
+{template "common/footer"}

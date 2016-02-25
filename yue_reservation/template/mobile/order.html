@@ -1,0 +1,74 @@
+{template 'header'}
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			预约
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped">
+				<tr>
+					<th>选择店铺：</th>
+					<td>
+						<select name="shop" class="form-control">
+						{loop $info $r}
+							<option value="{$r['id']}">{$r['name']}</option>
+						{/loop}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>选择商品：</th>
+					<td>
+						<select name="goods" class="form-control">
+							<option value="id">name</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><button class="btn btn-info fr" id="next">去选择按摩师 >></button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$id = $('[name=shop]').val()
+		loadGoods($id)
+	})
+	function loadGoods (id) {
+		$data = {
+			id:id
+		}
+		$url = '{php echo $this->createMobileUrl('ChoseGoods')}'
+		$.ajax({
+			url:$url,
+			data:$data,
+			type:'get',
+			datatype:'json',
+			success:function(data){
+				$data = jQuery.parseJSON(data)
+				$html = ''
+				for (var i = 0 ; i < $data.length ; i++) {
+					$id = $data[i]['id']
+					$name = $data[i]['name']
+					$html = $html+ '<option value="'+$id+'">'+$name+'</option>'
+				};
+				$('[name=goods]').html($html)
+			}
+		})
+	}
+	$('[name=shop]').change(function(){
+		$id = $(this).val()
+		// 加载workers
+		loadGoods($id)
+	})
+	$('#next').click(function(){
+		$shop = $('[name=shop]').val()
+		$goods = $('[name=goods]').val()
+		$url = '{php echo $this->createMobileUrl('DoAddOrder')}'
+		$url += '&id='+$goods+'&shop='+$shop
+		location.href = $url
+	})
+</script>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>广|悦|堂 - 预约服务</title>
+	<meta name="keywords" content="微擎,微信,微信公众平台,we7.cc" />
+	<meta name="description" content="公众平台自助引擎（www.we7.cc），简称微擎，微擎是一款免费开源的微信公众平台管理系统，是国内最完善移动网站及移动互联网技术解决方案。" />
+	<link rel="shortcut icon" href="/images/global/wechat.jpg" />
+	<link rel="stylesheet" href="./resource/css/bootstrap.min.css">
+	<script src="./resource/js/lib/jquery-1.11.1.min.js"></script>
+	<script src="./resource/js/lib/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<p class="navbar-text text-center">广 | 悦 | 堂 - [ {$info['goods']['name']} ] - 预约订单</p>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<table class="table table-striped">
+		<tr>
+			<th>订单号：</th>
+			<td><input name="code" type="text" class="form-control" value="{$info['orderCode']}" disabled="disabled"></td>
+			<td class="hide"><input name="goods_id" type="text" class="form-control" value="{$info['goods']['id']}" disabled="disabled"></td>
+		</tr>
+		<tr>
+			<th>商品名称：</th>
+			<td><input name="name" type="text" class="form-control" value="{$info['goods']['name']}" disabled="disabled"></td>
+		</tr>
+		<tr>
+			<th>商品价格：</th>
+			<td><input name="price" type="text" class="form-control" value="{$info['goods']['price']}" disabled="disabled"></td>
+		</tr>
+		<tr>
+			<th>您的姓名：</th>
+			<td><input name="buyer_name" type="text" class="form-control" value="{$info['user']['name']}"></td>
+		</tr>
+		<tr>
+			<th>您的电话：</th>
+			<td><input name="buyer_phone" type="text" class="form-control" value="{$info['user']['mobile']}"></td>
+		</tr>
+		<tr>
+			<th>选择店铺：</th>
+			<td>
+				<select name="shops" class="form-control">
+					{loop $info['goods']['shops'] $r}
+					<option value="{$r['id']}" {if $shop} selected="selected" {/if}>{$r['name']}</option>
+					{/loop}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>选择按摩师：</th>
+			<td>
+				<select name="workers" class="form-control">
+					{loop $data $r}
+					<option value="{$r['id']}">{$['name']}</option>
+					{/loop}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>预订日期：</th>
+			<td><input class="form-control" name="date" type="date" value="{php echo date('Y-m-d' , time())}" /></td>
+		</tr>
+		<tr>
+			<th>预订时间：</th>
+			<td><input class="form-control" name="time" type="time" value="{php echo date('h-i' , time())}" /></td>
+		</tr>
+		<tr class="hide">
+			<th>订单生成时间：</th>
+			<td><input class="form-control" type="text" name="addtime" value="{php echo date('Y-m-d h:i:s' , time());}" disabled="disabled"><td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<div class="navbar navbar-default navbar-fixed-bottom">
+	<div class="btn-group btn-group-justified" role="group">
+		<a href="javascript:history.back(-1);" class="btn btn-primary btn-lg" id="back" role="button">返回</a>
+		<a href="javascript:void(0);" class="btn btn-success do-add">提交订单</a>
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	$id = $('[name=shops]').val()
+	loadWorkers($id)
+})
+function loadWorkers (id) {
+	$data = {
+		id:id
+	}
+	$url = '{php echo $this->createMobileUrl('ChoseWorker')}'
+	$.ajax({
+		url:$url,
+		data:$data,
+		type:'get',
+		datatype:'json',
+		success:function(data){
+			$data = jQuery.parseJSON(data)
+			$html = ''
+			for (var i = 0 ; i < $data.length ; i++) {
+				$id = $data[i]['id']
+				$name = $data[i]['name']
+				$html = $html+ '<option value="'+$id+'">'+$name+'</option>'
+			};
+			$('[name=workers]').html($html)
+		}
+	})
+}
+$('[name=shops]').change(function(){
+	$id = $(this).val()
+	// 加载workers
+	loadWorkers($id)
+})
+$('.do-add').click(function(){
+	$url = '{php echo $this->createMobileUrl('createOrder')}'
+	$data = {
+		code:$('[name=code]').val(),
+		goods_id:$('[name=goods_id]').val(),
+		shop:$('[name=shops]').val(),
+		name:$('[name=name]').val(),
+		price:$('[name=price]').val(),
+		buyer_phone:$('[name=buyer_phone]').val(),
+		buyer_name:$('[name=buyer_name]').val(),
+		worker_uid:$('[name=workers]').val(),
+		addtime:$('[name=addtime]').val(),
+		date:$('[name=date]').val(),
+		time:$('[name=time]').val()
+	}
+	$.ajax({
+		url:$url,
+		data:$data,
+		type:'post',
+		success:function(data){
+			alert(data)
+		}
+	})
+})
+</script>

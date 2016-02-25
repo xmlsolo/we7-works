@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+
+	<application setting="false">
+
+		<name><![CDATA[预约]]></name>
+
+		<identifie><![CDATA[yue_reservation]]></identifie>
+
+		<version><![CDATA[1.0]]></version>
+
+		<type><![CDATA[business]]></type>
+
+		<ability><![CDATA[预约]]></ability>
+
+		<description><![CDATA[预约]]></description>
+
+		<author><![CDATA[zwent]]></author>
+
+		<url><![CDATA[http://bbs.we7.cc/]]></url>
+
+	</application>
+
+	<platform>
+
+		<subscribes>
+			<message type="text" />
+
+		</subscribes>
+
+		<handles>
+			<message type="text" />
+
+		</handles>
+
+		<rule embed="true" />
+
+		<card embed="false" />
+
+	</platform>
+
+	<bindings>
+		<menu>
+			<entry title="预约设置" do="reservation" state="" direct="false" />
+			<entry title="商品设置" do="goods" state="" direct="false" />
+			<entry title="按摩师设置" do="worker" state="" direct="false" />
+			<entry title="店铺设置" do="shop" state="" direct="false" />
+		</menu>
+
+	</bindings>
+
+	<permissions>
+
+	</permissions>
+
+	<crons>
+
+	</crons>
+
+	<install><![CDATA[
+DROP TABLE IF EXISTS `ims_reservation`;
+CREATE TABLE `ims_reservation` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL,
+  `code` varchar(13) NOT NULL,
+  `goods_id` tinyint(10) NOT NULL,
+  `name` char(40) NOT NULL,
+  `price` decimal(10,0) NOT NULL DEFAULT '0',
+  `shop` tinyint(4) NOT NULL,
+  `buyer_uid` tinyint(4) NOT NULL,
+  `buyer_phone` varchar(11) NOT NULL,
+  `buyer_name` varchar(40) NOT NULL,
+  `buyer_openid` varchar(50) NOT NULL,
+  `worker_uid` varchar(4) NOT NULL,
+  `worker_phone` varchar(11) NOT NULL,
+  `worker_name` varchar(40) NOT NULL,
+  `worker_openid` varchar(50) NOT NULL,
+  `addtime` varchar(12) NOT NULL,
+  `time` varchar(12) NOT NULL,
+  `overtime` varchar(12) DEFAULT NULL,
+  `state` enum('workerfail','buyerfail','accept','ordered','waiting') NOT NULL DEFAULT 'waiting',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for ims_reservation_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `ims_reservation_goods`;
+CREATE TABLE `ims_reservation_goods` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `thumb` varchar(255) DEFAULT NULL,
+  `price` decimal(10,0) NOT NULL DEFAULT '0',
+  `description` varchar(40) DEFAULT NULL,
+  `workers` varchar(10) NOT NULL,
+  `shops` varchar(10) NOT NULL,
+  `content` text,
+  `orders` varchar(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for ims_reservation_reply
+-- ----------------------------
+DROP TABLE IF EXISTS `ims_reservation_reply`;
+CREATE TABLE `ims_reservation_reply` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `uniacid` tinyint(10) NOT NULL,
+  `rid` tinyint(10) NOT NULL,
+  `title` varchar(40) NOT NULL,
+  `thumb` char(255) DEFAULT NULL,
+  `discription` varchar(255) DEFAULT NULL,
+  `url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for ims_reservation_shop
+-- ----------------------------
+DROP TABLE IF EXISTS `ims_reservation_shop`;
+CREATE TABLE `ims_reservation_shop` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `uniacid` tinyint(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `add` varchar(255) NOT NULL,
+  `description` char(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for ims_reservation_worker
+-- ----------------------------
+DROP TABLE IF EXISTS `ims_reservation_worker`;
+CREATE TABLE `ims_reservation_worker` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL,
+  `uid` int(10) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `thumb` varchar(255) DEFAULT NULL,
+  `phone` varchar(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `openid` varchar(50) NOT NULL,
+  `shopid` tinyint(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+	]]></install>
+
+	<uninstall><![CDATA[
+	DROP TABLE IF EXISTS `ims_reservation`;
+        DROP TABLE IF EXISTS `ims_reservation_goods`;
+        DROP TABLE IF EXISTS `ims_reservation_reply`;
+        DROP TABLE IF EXISTS `ims_reservation_shop`;
+        DROP TABLE IF EXISTS `ims_reservation_worker`;
+	]]></uninstall>
+
+	<upgrade><![CDATA[]]></upgrade>
+
+</manifest>
