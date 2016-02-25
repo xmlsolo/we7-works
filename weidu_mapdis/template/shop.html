@@ -1,0 +1,29 @@
+{template "common/header"}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('Index')}">店铺列表</a></li>
+	<li><a href="{php echo $this->createWebUrl('AddNewShop')}">添加新店铺</a></li>
+</ul>
+<div class="panel panel-default">
+	<div class="panel-heading">店铺列表</div>
+	<div class="panel-body">
+		<table class="table">
+			<tr>
+				<th>ID</th>
+				<th>店铺名称</th>
+				<th>店铺简介</th>
+				<th>店铺坐标</th>
+				<th>操作</th>
+			</tr>
+			{loop $info $r}
+			<tr>
+				<td>{$r['id']}</td>
+				<td>{$r['name']}</td>
+				<td>{$r['description']}</td>
+				<td>{$r['location']}</td>
+				<td><a href="{php echo $this->createWebUrl('edit')}&id={$r['id']}" class="btn btn-danger">修改</a> <a href="{php echo $this->createWebUrl('Del');}&id={$r['id']}" class="btn btn-info">删除</a></td>
+			</tr>
+			{/loop}
+		</table>
+	</div>
+</div>
+{template "common/footer"}

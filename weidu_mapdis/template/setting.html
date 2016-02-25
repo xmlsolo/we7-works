@@ -1,0 +1,20 @@
+{template "common/header"}
+<div class="clearfix">
+    <form class="form-horizontal form" action="" method="post">
+        <div class="panel panel-default">
+            <div class="panel-heading">配置信息</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">百度地图密钥:</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input class="form-control" name="ak" value="{$data['ak']}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+			<input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+        </div>
+    </form>
+</div>
+{template "common/footer"}

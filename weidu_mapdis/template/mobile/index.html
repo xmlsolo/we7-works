@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta charset="utf-8">
+	<title>选择您要找的店铺</title>
+	<link rel="stylesheet" href="../addons/weidu_brand/template/css/uikit.css" />
+	<link rel="stylesheet" href="/app/resource/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../addons/weidu_brand/template/css/index.css" />
+	<script src="../addons/weidu_brand/template/js/jquery-1.7.2.min.js"></script>
+	<script src="../addons/weidu_brand/template/js/uikit.min.js"></script>
+	<script src="/app/resource/js/lib/bootstrap.min.js"></script>
+
+	<style type="text/css">
+		a{
+			color:#333;
+		}
+		.right{
+			float: right;
+		}
+		.logo{
+			width: 100px;
+			height: 65px;
+			float: left;
+		}
+		.logo img{
+			width: 100px;
+			height: 65px;
+		}
+		.content{
+			padding-left: 110px;
+		}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={$setting['ak']}"></script>
+</head>
+<body>
+<!-- <nav class="navbar">
+    <div class="main uk-clearfix">
+        <div class="uk-float-right">
+            <a href="{php echo $this->createMobileUrl('index'); }"><i class="uk-icon-home uk-icon-small"></i></a>
+        </div>
+        <div class="uk-float-left">
+            <a href="javascript:void(0)" onclick="history.back()"><i class="uk-icon-chevron-left uk-icon-small"></i></a>
+        </div>
+        <span class="merchantName uk-text-center">选择您要找的店铺</span>
+    </div>
+</nav> -->
+<div class="container" style="padding-top:20px">
+{loop $info $r}
+	<a href="{php echo $this->createMobileUrl('Show')}&id={$r['id']}"><div class="panel panel-default">
+		<div class="panel-heading" style="background-color: #1e95c9;">
+				<span class="left" style="color: #FFF;font-weight: 700">{$r['name']}</span>
+				<span class="right"><span class="dis" style="color: #FFF">距您还有 : {$r['order']} 米</span></span>
+		</div>
+		<div class="panel-body">
+			<div class="logo">
+				<img src="/attachment/{$r['thumb']}" alt="">
+			</div>
+			<div class="content">
+				<table class="uk-table-striped">
+				<tr>
+					<th class="uk-text-muted">店铺简介: </th>
+					<td>{$r['description']}</td>
+				</tr>
+				<tr>
+					<th class="uk-text-muted">营业时间: </th>
+					<td>{$r['bus_time']}</td>
+				</tr>
+				<tr>
+					<th class="uk-text-muted">店铺位置: </th>
+					<td>{$r['add']}</td>
+				</tr>
+			</table>
+			</div>
+		</div>
+	</div>
+	</a>
+{/loop}
+</div>
+
+<footer class="footer uk-text-small uk-text-center uk-text-muted uk-margin-top">
+	版权所有 &copy; 侵权必究<br>
+</footer>
+</body>
+</html>

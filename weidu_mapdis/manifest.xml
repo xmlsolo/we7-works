@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+
+	<application setting="true">
+
+		<name><![CDATA[百度地图距离]]></name>
+
+		<identifie><![CDATA[weidu_mapdis]]></identifie>
+
+		<version><![CDATA[1.0]]></version>
+
+		<type><![CDATA[business]]></type>
+
+		<ability><![CDATA[计算地图距离]]></ability>
+
+		<description><![CDATA[计算手机与店铺之间的位置,并计算路径]]></description>
+
+		<author><![CDATA[zwent]]></author>
+
+		<url><![CDATA[http://bbs.we7.cc/]]></url>
+
+	</application>
+
+	<platform>
+
+		<subscribes>
+			<message type="text" />
+
+		</subscribes>
+
+		<handles>
+			<message type="text" />
+
+		</handles>
+
+		<rule embed="true" />
+
+		<card embed="false" />
+
+	</platform>
+
+	<bindings>
+		<menu>
+			<entry title="商家" do="index" state="" direct="false" />
+		</menu>
+
+	</bindings>
+
+	<permissions>
+
+	</permissions>
+
+	<crons>
+
+	</crons>
+
+	<install><![CDATA[DROP TABLE IF EXISTS `ims_weidu_baidumap_dis`;
+DROP TABLE IF EXISTS `ims_weidu_baidumap_dis`;
+CREATE TABLE `ims_weidu_baidumap_dis` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `uniacid` int(4) NOT NULL,
+  `thumb` varchar(60) DEFAULT NULL,
+  `description` varchar(60) DEFAULT NULL,
+  `location` varchar(100) NOT NULL,
+  `bus_time` varchar(50) DEFAULT NULL,
+  `add` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_weidu_baidumap_reply`;
+CREATE TABLE `ims_weidu_baidumap_reply` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `rid` int(10) NOT NULL,
+  `uniacid` int(4) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `description` varchar(60) DEFAULT NULL,
+  `thumb` varchar(60) DEFAULT NULL,
+  `url` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;]]></install>
+
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_weidu_baidumap_dis`;
+		DROP TABLE IF EXISTS `ims_weidu_baidumap_reply`;]]></uninstall>
+
+	<upgrade><![CDATA[]]></upgrade>
+
+</manifest>
